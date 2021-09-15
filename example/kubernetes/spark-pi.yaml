@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: spark-pi
+spec:
+  template:
+    spec:
+      containers:
+        - name: spark
+          image: wichita/spark:v2.4.4
+          command: [
+            "/bin/sh",
+            "-c",
+            "/opt/spark/bin/spark-submit \
+            --master k8s://https://10.100.0.1:443 \
+            --deploy-mode cluster \
+            --name spark-pi \
+            --class org.apache.spark.examples.JavaSparkPi \
+            --conf spark.executor.instances=2 \
+            --conf spark.executor.memory=1G \
+            --conf spark.executor.cores=2 \
+            --conf spark.sql.shuffle.partitions=60 \
+            --conf spark.kubernetes.container.image=wichita/spark-on-eks:v1.0 \
+            --conf spark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem \
+            --conf spark.kubernetes.container.image.pullPolicy=Always \
+            --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
+            local:///opt/spark/jars/spark-examples.jar \
+            \"100\""
+          ]
+      serviceAccountName: spark
+      restartPolicy: Never
+  backoffLimit: 4

@@ -74,6 +74,8 @@ FROM spark AS final
 
 COPY --from=build /opt/input/target/scala-2.11/spark-on-eks-assembly-v1.0.jar  /opt/spark/jars
 
+COPY spark-examples.jar /opt/spark/jars
+
 ENV SPARK_HOME /opt/spark
 
 WORKDIR /opt/spark/work-dir

@@ -3,10 +3,10 @@ kind: ClusterConfig
 
 metadata:
   name: spark-cluster
-  region: us-east-1
-  version: "1.14"
+  region: us-east-2
+  version: "1.21"
 
-availabilityZones: ["us-east-1a", "us-east-1b","us-east-1c"]
+availabilityZones: ["us-east-2a", "us-east-2b","us-east-2c"]
 
 nodeGroups:
   - name: spark-nodes
@@ -19,4 +19,4 @@ nodeGroups:
       attachPolicyARNs:
         - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
         - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
-        - <YOUR_AWS_IAM_POLICY_ARN>
+        - arn:aws:iam::242541950622:policy/P0-spark-on-eks-policy
